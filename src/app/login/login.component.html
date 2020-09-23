@@ -1,0 +1,38 @@
+<div class="container viewport-header" >
+<video  [muted]="true" autoplay playsinline loop>
+  <source src="../../assets/LiveWallpapers/mylivewallpapers.com-Digital-HUD-Techno.mp4" type="video/mp4">
+
+
+</video>
+  <div class="row">
+    <form class="text-center border border-light p-5">
+
+      <img src="../../assets/icons/icon.ico" style="width: 100px; height: 100px;">
+
+      <!-- Email -->
+      <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+      <!-- Password -->
+      <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+
+      <div class="d-flex justify-content-around">
+        <div>
+          <mdb-checkbox [default]="true">Remember me</mdb-checkbox>
+        </div>
+        <div>
+          <a href="">Forgot password?</a>
+        </div>
+      </div>
+
+      <!-- Sign in button -->
+      <button mdbBtn color="info" block="true" class="my-4" type="submit">Sign in</button>
+
+      <!-- Register -->
+      <p>Not a member?
+        <a href="">Register</a>
+      </p>
+
+    </form>
+    <!-- Default form login -->
+  </div>
+</div>
