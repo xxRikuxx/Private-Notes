@@ -1,11 +1,8 @@
-html, body {
-  height: 100%;
-}
-html {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 150%;
-  line-height: 1.4;
-}
-body {
-  margin: 0;
-}
+
+/* Importing Bootstrap SCSS file. */
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css";
+@import '~bootstrap/scss/bootstrap';
+
+

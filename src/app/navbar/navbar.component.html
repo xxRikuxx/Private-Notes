@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+<!--    <button type="button" class="mr-auto mt-2 mt-lg-0 btn btn-primary">-->
+<!--      <i class="fas fa-plus"></i>-->
+<!--      New Note-->
+<!--    </button>-->
+    <button type="button" class="mr-auto mt-2 mt-lg-0 btn btn-primary">
+      <i class="fas fa-plus"></i>
+      New Note
+    </button>
+    <ul class="navbar-nav my-2 my-lg-0 ">
+      <li ngbDropdown  display="dynamic" class="nav-item">
+        <a href (click)="false" class="nav-link" ngbDropdownToggle>
+          <img src="../../assets/amber-kipp-75715CVEJhI-unsplash.jpg" width="50px" height="50px" alt="" class="rounded-circle">
+        </a>
+        <div ngbDropdownMenu>
+          <button ngbDropdownItem><i class="fas fa-cog"></i> Settings</button>
+          <button ngbDropdownItem (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

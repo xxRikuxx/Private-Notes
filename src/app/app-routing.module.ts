@@ -11,8 +11,10 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent},
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
+  { path: 'dashboard', component: DashboardComponent},
+  { path: 'settings', component: SettingsComponent},
+  // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
+  // { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
   { path: '**', component: PageNotFoundComponent }
 ];
 

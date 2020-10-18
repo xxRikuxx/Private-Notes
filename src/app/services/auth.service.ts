@@ -23,6 +23,9 @@ export class AuthService {
     });
   }
 
+  getUserDetails() {
+    return this.userDetails;
+  }
   // Sign In Authentication
   signInUser(email, password): Promise<any> {
     return firebase.auth().signInWithEmailAndPassword(email, password)
