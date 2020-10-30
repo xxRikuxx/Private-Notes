@@ -12,4 +12,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  resetPassword(key: string): void {
+
+  }
 }

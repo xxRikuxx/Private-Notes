@@ -22,6 +22,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ToastsContainerComponent } from './shared/toasts-container/toasts-container.component';
 import { ToastsComponent } from './shared/toasts/toasts.component';
 import {AgGridModule} from 'ag-grid-angular';
+import { GenerateNoteComponent } from './generate-note/generate-note.component';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -35,7 +36,8 @@ firebase.initializeApp(firebaseConfig);
     SignUpComponent,
     NavbarComponent,
     ToastsContainerComponent,
-    ToastsComponent
+    ToastsComponent,
+    GenerateNoteComponent
   ],
   imports: [
     BrowserModule,

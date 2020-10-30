@@ -43,4 +43,16 @@ export class DashboardComponent extends ToastsComponent implements OnInit {
     this.loggedIn('Peter');
   }
 
+  getTableRecords(): void {
+
+  }
+
+  editRecord(key: string): void {
+
+  }
+
+  deleteRecord(key: string): void {
+
+  }
+
 }

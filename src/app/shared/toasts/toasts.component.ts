@@ -29,4 +29,8 @@ export class ToastsComponent implements OnInit {
   loggedIn(user) {
     this.toastService.show(`Successfully Logged In!`, {classname: 'bg-success text-light', delay: 5000});
   }
+
+  loggedOut(user) {
+
+  }
 }
