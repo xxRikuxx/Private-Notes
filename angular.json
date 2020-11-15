@@ -28,6 +28,19 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "firebase",
+              "@angular/common/locales/fr",
+              "lodash/dropRight",
+              "@firebase/app",
+              "firebase/app",
+              "@firebase/database",
+              "@firebase/firestore",
+              "@firebase/functions",
+              "@firebase/performance",
+              "@firebase/remote-config"
+            ],
             "styles": [
               "node_modules/animate.css/animate.css",
               "src/styles.scss"
@@ -36,7 +49,7 @@
               "node_modules/chart.js/dist/Chart.js",
               "node_modules/hammerjs/hammer.min.js"
 
-            ]
+            ],
           },
           "configurations": {
             "production": {

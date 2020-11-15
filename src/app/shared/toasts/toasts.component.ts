@@ -19,14 +19,14 @@ export class ToastsComponent implements OnInit {
     this.toastService.show('I am a standard toast');
   }
 
-  showSuccess() {
-    this.toastService.show('I am a success toast', {classname: 'bg-success text-light  mt-5', delay: 10000});
+  showSuccess(msg: string) {
+    this.toastService.show(msg, {classname: 'bg-success text-light  mt-5', delay: 10000});
   }
 
   showDanger(dangerTpl) {
     this.toastService.show(dangerTpl, {classname: 'bg-danger text-light', delay: 15000});
   }
-  loggedIn(user) {
+  loggedIn() {
     this.toastService.show(`Successfully Logged In!`, {classname: 'bg-success text-light', delay: 5000});
   }
 

@@ -2,27 +2,50 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Note} from '../shared/models/Note';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastsComponent} from '../shared/toasts/toasts.component';
+import {ToastService} from '../toast.service';
+import moment from 'moment';
 @Component({
   selector: 'app-generate-note',
   templateUrl: './generate-note.component.html',
   styleUrls: ['./generate-note.component.scss']
 })
-export class GenerateNoteComponent implements OnInit {
+export class GenerateNoteComponent extends ToastsComponent implements OnInit {
   public notes: AngularFireList<Note[]>;
-  closeResult = "";
-  constructor(private db: AngularFireDatabase, private modalService: NgbModal) {
+  closeResult = '';
+  private createNote: FormGroup;
+  private title: FormControl;
+  private category: FormControl;
+  private description: FormControl;
+
+  constructor(private formBuilder: FormBuilder, private db: AngularFireDatabase, private modalService: NgbModal, public toastService: ToastService) {
+    super(toastService);
     this.notes = this.db.list('/notes');
-   }
+    this.title = new FormControl('', [Validators.required]);
+    this.category = new FormControl('', [Validators.required]);
+    this.description = new FormControl('', [Validators.required]);
+
+    this.createNote = formBuilder.group({
+      title: this.title,
+      category: this.category,
+      description: this.description
+    });
+
+  }
 
   ngOnInit(): void {
   }
 
   open(content): void {
-    this.generateNote(null);
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {size: 'lg', ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      console.log(this.closeResult);
+      console.log(this.createNote.value);
+      this.generateNote(this.createNote.value);
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
     });
   }
 
@@ -36,10 +59,14 @@ export class GenerateNoteComponent implements OnInit {
     }
   }
 
-  generateNote(data: any): void {
-    // this.
-    const note: any = new Note("foobar", "descriptoin", "category", "date");
-    this.notes.push(note);
+  generateNote({title, category, description}): void {
+    const note: any = new Note(title, description, category, moment().format('MMMM Do YYYY, h:mm:ss a'));
+    this.notes.push(note).then((response) => {
+      this.showSuccess('Note Saved!');
+    }, (err) => {
+        this.showDanger('Note Failed To Save');
+    });
+
   }
 
 }

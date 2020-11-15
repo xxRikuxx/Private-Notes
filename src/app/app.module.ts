@@ -23,6 +23,7 @@ import { ToastsContainerComponent } from './shared/toasts-container/toasts-conta
 import { ToastsComponent } from './shared/toasts/toasts.component';
 import {AgGridModule} from 'ag-grid-angular';
 import { GenerateNoteComponent } from './generate-note/generate-note.component';
+import {HttpClientModule} from '@angular/common/http';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -43,6 +44,7 @@ firebase.initializeApp(firebaseConfig);
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    HttpClientModule,
     AgGridModule.withComponents([]),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
