@@ -6,6 +6,8 @@ import {GridOptions} from 'ag-grid-community';
 import {DataService} from '../../services/data.service';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {not} from 'rxjs/internal-compatibility';
+import {DELETE} from '@angular/cdk/keycodes';
+import {DeleteBtnComponent} from './delete-btn/delete-btn.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,9 +17,19 @@ import {not} from 'rxjs/internal-compatibility';
 export class DashboardComponent extends ToastsComponent implements OnInit {
   columnDefs = [
     {field: 'title', sortable: true, filter: true, editable: true, flex: 1, resizable: true},
-    {field: 'description', sortable: true, filter: true, editable: true, flex: 2, resizable: true},
+    {field: 'description', sortable: true, filter: true, editable: true, flex: 3, resizable: true},
     {field: 'category', sortable: true, filter: true, editable: true, flex: 1, resizable: true},
-    {field: 'date', sortable: true, filter: true, editable: true, flex: 1, resizable: true}
+    {field: 'date', sortable: true, filter: true, editable: true, flex: 2, resizable: true},
+    {
+      headerName: '',
+      field: 'name',
+      cellRendererFramework: DeleteBtnComponent,
+      cellRendererParams: {
+        onClick: this.deleteRecord.bind(this)
+      },
+      resizable: false,
+      maxWidth: 80
+    }
 
   ];
   private gridAPI;
@@ -70,7 +82,7 @@ export class DashboardComponent extends ToastsComponent implements OnInit {
 
   }
 
-  deleteRecord(item: any): void {
+  deleteRecord({rowData}: any): void {
     const db = this.db.database.ref();
     const query = this.db.database.ref('/notes').orderByKey();
     query.once('value')
@@ -78,11 +90,14 @@ export class DashboardComponent extends ToastsComponent implements OnInit {
         snap.forEach((child) => {
           const key = child.key;
           const value = child.val();
-          if (value.date === item.date) {
+          if (value.date === rowData.date) {
             db.child(`/notes/${key}`).remove().then(r => console.log(r));
+            this.showSuccess('Deleted Note');
             return true;
           }
         });
+      }, err => {
+        this.showDanger('Failed To Delete Note');
       });
     // query.once("value")
   }
