@@ -60,18 +60,6 @@ export class DashboardComponent extends ToastsComponent implements OnInit {
   ngOnInit(): void {
     this.loggedIn();
     console.log(this.gridOptions);
-    // setTimeout(() => {
-    //   const deleteRow = this.rowData[0];
-    //   console.log("deleted the following object: " + deleteRow[0]);
-    //   this.deleteRecord(deleteRow[0]);
-    // }, 3000);
-    // this.dataService.getAllNotes().subscribe((notes) => {
-    //   console.log('Retrieve All Notes From DB: ' , notes);
-    //   this.gridOptions = {
-    //     rowData: notes,
-    //     columnDefs: this.columnDefs
-    //   };
-    // }, (err) => console.log(err));
   }
 
   getTableRecords(): void {
