@@ -24,6 +24,7 @@ import { ToastsComponent } from './shared/toasts/toasts.component';
 import {AgGridModule} from 'ag-grid-angular';
 import { GenerateNoteComponent } from './generate-note/generate-note.component';
 import {HttpClientModule} from '@angular/common/http';
+import { DeleteBtnComponent } from './components/dashboard/delete-btn/delete-btn.component';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -38,7 +39,8 @@ firebase.initializeApp(firebaseConfig);
     NavbarComponent,
     ToastsContainerComponent,
     ToastsComponent,
-    GenerateNoteComponent
+    GenerateNoteComponent,
+    DeleteBtnComponent
   ],
   imports: [
     BrowserModule,

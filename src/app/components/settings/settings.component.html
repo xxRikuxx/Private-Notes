@@ -1,1 +1,47 @@
-<p>settings works!</p>
+<button ngbDropdownItem (click)="open(content)"><i class="fas fa-cog"></i> Settings</button>
+
+<ng-template #content let-modal size="lg">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile Settings</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="../../../assets/amber-kipp-75715CVEJhI-unsplash.jpg" width="50px" height="50px" alt="profile-pic"
+               class="rounded-circle">
+        </div>
+        <div class="col-sm-6">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile" (change)="onFileSelected($event)">
+            <label class="custom-file-label" for="customFile">{{fileName}}</label>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="email">Email address</label>
+        </div>
+        <div class="col-sm-6">
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="password">Password</label>
+        </div>
+        <div class="col-sm-6">
+          <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">Save</button>
+  </div>
+</ng-template>

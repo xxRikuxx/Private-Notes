@@ -12,10 +12,10 @@
     <ul class="navbar-nav my-2 my-lg-0 ">
       <li ngbDropdown  display="dynamic" class="nav-item">
         <a href (click)="false" class="nav-link" ngbDropdownToggle>
-          <img src="../../assets/amber-kipp-75715CVEJhI-unsplash.jpg" width="50px" height="50px" alt="" class="rounded-circle">
+          <img src="../../assets/amber-kipp-75715CVEJhI-unsplash.jpg" width="50px" height="50px" alt="profile-pic" class="rounded-circle">
         </a>
         <div ngbDropdownMenu>
-          <button ngbDropdownItem><i class="fas fa-cog"></i> Settings</button>
+          <app-settings></app-settings>
           <button ngbDropdownItem (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
       </li>

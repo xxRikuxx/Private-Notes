@@ -18,6 +18,8 @@ export class GenerateNoteComponent extends ToastsComponent implements OnInit {
   private title: FormControl;
   private category: FormControl;
   private description: FormControl;
+  modalReference: any;
+  disabled: boolean;
 
   constructor(private formBuilder: FormBuilder, private db: AngularFireDatabase, private modalService: NgbModal, public toastService: ToastService) {
     super(toastService);
@@ -25,7 +27,7 @@ export class GenerateNoteComponent extends ToastsComponent implements OnInit {
     this.title = new FormControl('', [Validators.required]);
     this.category = new FormControl('', [Validators.required]);
     this.description = new FormControl('', [Validators.required]);
-
+    this.disabled = true;
     this.createNote = formBuilder.group({
       title: this.title,
       category: this.category,
@@ -38,7 +40,8 @@ export class GenerateNoteComponent extends ToastsComponent implements OnInit {
   }
 
   open(content): void {
-    this.modalService.open(content, {size: 'lg', ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalReference = this.modalService.open(content, {size: 'lg', ariaLabelledBy: 'modal-basic-title'});
+    this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       console.log(this.closeResult);
       console.log(this.createNote.value);
@@ -69,4 +72,13 @@ export class GenerateNoteComponent extends ToastsComponent implements OnInit {
 
   }
 
+  onSubmit() {
+    if (this.title.valid && this.category.valid && this.description.valid) {
+      this.modalReference.close();
+    } else {
+      console.log(this.title.valid );
+      console.log(this.category.valid);
+      console.log(this.description.valid);
+    }
+  }
 }
