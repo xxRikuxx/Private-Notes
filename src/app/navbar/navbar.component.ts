@@ -8,7 +8,15 @@ import {AuthService} from '../services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  profileSrc;
+  constructor(public authService: AuthService) {
+    const user = this.authService.getCurrentUser();
+    if (user.photoURL === undefined || user.photoURL === null) {
+      this.profileSrc = null;
+    } else {
+      this.profileSrc = user.photoURL;
+    }
+  }
 
   ngOnInit(): void {
   }

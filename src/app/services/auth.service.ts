@@ -23,9 +23,14 @@ export class AuthService {
     });
   }
 
-  getUserDetails() {
+  getUserDetails(): any {
     return this.userDetails;
   }
+
+  getCurrentUser(): any {
+    return this.firebaseAuth.currentUser;
+  }
+
   // Sign In Authentication
   signInUser(email, password): Promise<any> {
     return firebase.auth().signInWithEmailAndPassword(email, password)
