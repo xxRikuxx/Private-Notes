@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ToastsComponent} from '../../shared/toasts/toasts.component';
 import {ToastService} from '../../toast.service';
 import {AuthService} from '../../services/auth.service';
@@ -8,13 +8,14 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {not} from 'rxjs/internal-compatibility';
 import {DELETE} from '@angular/cdk/keycodes';
 import {DeleteBtnComponent} from './delete-btn/delete-btn.component';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent extends ToastsComponent implements OnInit {
+export class DashboardComponent extends ToastsComponent implements OnInit, OnDestroy {
   columnDefs = [
     {field: 'title', sortable: true, filter: true, editable: true, flex: 1, resizable: true},
     {field: 'description', sortable: true, filter: true, editable: true, flex: 3, resizable: true},
@@ -33,33 +34,33 @@ export class DashboardComponent extends ToastsComponent implements OnInit {
 
   ];
   private gridAPI;
+  notesSubscription: Subscription;
   loremipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae felis ipsum. Pellentesque sem magna, maximus sed dui ac, venenatis vestibulum enim. Suspendisse scelerisque magna eget sapien tempor maximus. Etiam pretium sapien vel scelerisque suscipit. Cras mattis quam id leo mattis volutpat. Duis pellentesque et neque a lobortis. Maecenas mi lorem, congue vel est et, posuere varius sem. Quisque ullamcorper orci vestibulum aliquam posuere. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;';
-  rowData = [];
+  rowData: any;
 
   public gridOptions: GridOptions;
-  constructor(private db: AngularFireDatabase, private dataService: DataService, public toastService: ToastService, public authService: AuthService) {
-    super(toastService);
-    const userDetails = this.authService.getUserDetails();
+  isLoading: boolean;
 
+  constructor(private db: AngularFireDatabase, public toastService: ToastService, public authService: AuthService) {
+    super(toastService);
+
+    const userDetails = this.authService.getUserDetails();
     console.log(userDetails);
-    const notes = db.list('/notes').valueChanges();
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
-      rowData: this.rowData
-    };
+
+
+    this.loggedIn();
+
+    // const notes = db.list('/notes').valueChanges();
     // tslint:disable-next-line:no-shadowed-variable
-    notes.subscribe(notes => {
-      console.log(notes);
-      this.rowData.push(notes);
-      this.gridAPI.setRowData([...notes]);
-      console.log(notes);
-    });
 
   }
 
   ngOnInit(): void {
-    this.loggedIn();
-    console.log(this.gridOptions);
+    this.rowData =    this.db.list('/notes').valueChanges();
+
+  }
+
+  ngOnDestroy(): void {
   }
 
   getTableRecords(): void {
