@@ -8,14 +8,23 @@ import {PageNotFoundComponent} from './components/page-not-found/page-not-found.
 import {SignUpComponent} from './components/sign-up-component/sign-up.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent},
-  { path: 'dashboard', component: DashboardComponent},
-  { path: 'settings', component: SettingsComponent},
-  // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
-  // { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
-  { path: '**', component: PageNotFoundComponent }
+  // { path: 'dashboard', component: DashboardComponent},
+  // { path: 'settings', component: SettingsComponent},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
+  { path: 'notfound', component: PageNotFoundComponent },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'notfound',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

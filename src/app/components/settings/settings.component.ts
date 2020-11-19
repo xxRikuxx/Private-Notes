@@ -30,6 +30,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   profileSrc;
   private originalProfileSrc: any = '../../assets/icons/default-profile.png';
   private rawProfileFile: File;
+  isLoading: boolean;
 
   constructor(public toastService: ToastService, private profilepicService: ProfilepicService, private formBuilder: FormBuilder, private db: AngularFireDatabase, private storage: AngularFireStorage, private modalService: NgbModal, private authService: AuthService) {
     super(toastService);
@@ -41,9 +42,10 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       email: this.email,
       password: this.password
     });
+
     const user = this.currentUser = this.authService.getUserDetails();
     if (user) {
-      console.log(this.currentUser.profile);
+      // console.log(this.currentUser.profile);
       this.currentEmail = this.originalEmail = this.currentUser.email;
     }
     if (user && user.hasOwnProperty('photoURL')) {
@@ -53,6 +55,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
         this.storage.ref(user.photoURL).getDownloadURL().subscribe(image => {
           console.log(image);
           this.profileSrc = image;
+          this.originalProfileSrc = this.profileSrc;
         });
       }
     }

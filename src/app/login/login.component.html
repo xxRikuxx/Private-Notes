@@ -5,7 +5,7 @@
 
 </video>
   <div class="row">
-    <form [formGroup]="account" (ngSubmit)="login()" class="text-center border border-light p-5">
+    <form [formGroup]="account" class="text-center border border-light p-5">
 
       <img src="../../assets/icons/icon.ico" style="width: 100px; height: 100px;">
 
@@ -18,7 +18,7 @@
 
 
       <!-- Sign in button -->
-      <button class="btn btn-primary"  type="submit">Sign in <i class="fas fa-sign-in-alt"></i></button>
+      <button class="btn btn-primary"  type="submit" (click)="login()">Sign in <i class="fas fa-sign-in-alt"></i></button>
 
       <!-- Register -->
       <p>Not a member?

@@ -6,6 +6,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastsComponent} from '../shared/toasts/toasts.component';
 import {ToastService} from '../toast.service';
 import moment from 'moment';
+import {AuthService} from '../services/auth.service';
 @Component({
   selector: 'app-generate-note',
   templateUrl: './generate-note.component.html',
@@ -21,9 +22,10 @@ export class GenerateNoteComponent extends ToastsComponent implements OnInit {
   modalReference: any;
   disabled: boolean;
 
-  constructor(private formBuilder: FormBuilder, private db: AngularFireDatabase, private modalService: NgbModal, public toastService: ToastService) {
+  constructor(private formBuilder: FormBuilder, private db: AngularFireDatabase, private modalService: NgbModal, public toastService: ToastService, private authService: AuthService) {
     super(toastService);
-    this.notes = this.db.list('/notes');
+    const user = this.authService.getUserDetails();
+    this.notes = this.db.list(user.uid + '/notes');
     this.title = new FormControl('', [Validators.required]);
     this.category = new FormControl('', [Validators.required]);
     this.description = new FormControl('', [Validators.required]);

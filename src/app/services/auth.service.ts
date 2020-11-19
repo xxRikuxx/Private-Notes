@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import * as firebase from 'firebase';
 
 @Injectable({
@@ -10,14 +10,16 @@ import * as firebase from 'firebase';
 export class AuthService {
   private user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
-
+  private isLoading = new BehaviorSubject(true);
   constructor(private firebaseAuth: AngularFireAuth, private router: Router) {
     this.user = firebaseAuth.authState;
 
     this.user.subscribe(user => {
-      if (user) {
+      if (user !== undefined) {
         this.userDetails = user;
         console.log('Current User \n', this.userDetails);
+        console.log('Sending.... loading stopped');
+        this.isLoading.next(false);
       } else {
         this.userDetails = null;
       }
@@ -27,10 +29,16 @@ export class AuthService {
   getUserDetails(): any {
     return this.userDetails;
   }
-
+  isUserLoading(): BehaviorSubject<any> {
+    return this.isLoading;
+  }
   // Sign In Authentication
   signInUser(email, password): Promise<any> {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+    return new Promise<any>((resolve, reject) => {
+      firebase.auth().signInWithEmailAndPassword(email, password).then(res => {
+        resolve(res);
+      }, err => reject(err));
+    });
   }
 
 
@@ -48,8 +56,9 @@ export class AuthService {
 
   logout(): void {
     this.firebaseAuth.signOut().then((res) => {
+      console.log(res);
       return this.router.navigate(['/']);
-    });
+    }, err => console.log(err));
   }
 
 }
