@@ -11,6 +11,7 @@ export class AuthService {
   private user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
   private isLoading = new BehaviorSubject(true);
+
   constructor(private firebaseAuth: AngularFireAuth, private router: Router) {
     this.user = firebaseAuth.authState;
 
@@ -29,9 +30,11 @@ export class AuthService {
   getUserDetails(): any {
     return this.userDetails;
   }
+
   isUserLoading(): BehaviorSubject<any> {
     return this.isLoading;
   }
+
   // Sign In Authentication
   signInUser(email, password): Promise<any> {
     return new Promise<any>((resolve, reject) => {
@@ -61,4 +64,13 @@ export class AuthService {
     }, err => console.log(err));
   }
 
+  resetPassword(emailAddress: string): Promise<any> {
+    return this.firebaseAuth.sendPasswordResetEmail(emailAddress).then(() => {
+      // Email sent.
+      return true;
+    }).catch(error => {
+      // An error happened.
+      return error;
+    });
+  }
 }

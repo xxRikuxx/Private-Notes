@@ -36,11 +36,9 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
     super(toastService);
     this.customFile = new FormControl('', [Validators.required]);
     this.email = new FormControl('', [Validators.required]);
-    this.password = new FormControl('', [Validators.required]);
     this.profile = formBuilder.group({
       customFile: this.customFile,
       email: this.email,
-      password: this.password
     });
 
     const user = this.currentUser = this.authService.getUserDetails();
@@ -66,8 +64,16 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  resetPassword(key: string): void {
-
+  resetPassword(): void {
+    if (this.currentEmail) {
+      this.authService.resetPassword(this.currentEmail).then((result) => {
+        if (result) {
+          this.showSuccess('Reset Password Link Sent!');
+        }
+      }, (err) => {
+        this.showDangerWithDelay(err, 5000);
+      });
+    }
   }
 
   open(content): void {
@@ -112,9 +118,6 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       if (this.currentEmail !== this.originalEmail) {
         this.updatedUserProfile = this.updateEmail(this.currentEmail);
       }
-    } else if (this.currentPwd && this.currentPwd.length > 0 && this.currentEmail.length === 0) {
-      this.updatedUserProfile = this.updatePwd(this.currentPwd);
-
     }
     if (this.updatedUserProfile) {
       this.showSuccessWithDelay('Profile Successfully Updated', 5000);

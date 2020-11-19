@@ -33,10 +33,11 @@
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <label for="password">Password</label>
+<!--          <label for="password">Reset </label>-->
         </div>
         <div class="col-sm-6">
-          <input type="password" class="form-control" id="password" [(ngModel)]="currentPwd"  name="password" placeholder="Password">
+          <button type="button" aria-describedby="pwdHelp" class="btn btn-outline-dark" (click)="resetPassword()">Reset Password</button>
+          <small id="pwdHelp" class="form-text text-muted">Sends a link to your email address to reset your password.</small>
         </div>
       </div>
     </form>
