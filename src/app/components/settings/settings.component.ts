@@ -56,6 +56,8 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
           console.log(image);
           this.profileSrc = image;
           this.originalProfileSrc = this.profileSrc;
+
+
         });
       }
     }
