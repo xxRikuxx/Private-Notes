@@ -6,6 +6,7 @@ import {AuthService} from '../../services/auth.service';
 import {ToastsComponent} from '../../shared/toasts/toasts.component';
 import {ToastService} from '../../toast.service';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {ProfilepicService} from '../../services/profilepic.service';
 
 @Component({
   selector: 'app-settings',
@@ -27,10 +28,10 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   updatedUserProfile = false;
   originalEmail: string;
   profileSrc;
-  private originalProfileSrc: any = '../../../assets/amber-kipp-75715CVEJhI-unsplash.jpg';
+  private originalProfileSrc: any = '../../assets/icons/default-profile.png';
   private rawProfileFile: File;
 
-  constructor(public toastService: ToastService, private formBuilder: FormBuilder, private db: AngularFireDatabase, private storage: AngularFireStorage, private modalService: NgbModal, private authService: AuthService) {
+  constructor(public toastService: ToastService, private profilepicService: ProfilepicService, private formBuilder: FormBuilder, private db: AngularFireDatabase, private storage: AngularFireStorage, private modalService: NgbModal, private authService: AuthService) {
     super(toastService);
     this.customFile = new FormControl('', [Validators.required]);
     this.email = new FormControl('', [Validators.required]);
@@ -40,9 +41,21 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       email: this.email,
       password: this.password
     });
-    this.currentUser = this.authService.getUserDetails();
-    this.currentEmail = this.originalEmail = this.currentUser.email;
-    console.log(this.currentUser.profile);
+    const user = this.currentUser = this.authService.getUserDetails();
+    if (user) {
+      console.log(this.currentUser.profile);
+      this.currentEmail = this.originalEmail = this.currentUser.email;
+    }
+    if (user && user.hasOwnProperty('photoURL')) {
+      if (user.photoURL === null || user.photoURL === undefined || user.photoURL.length === 0) {
+        this.profileSrc = null;
+      } else {
+        this.storage.ref(user.photoURL).getDownloadURL().subscribe(image => {
+          console.log(image);
+          this.profileSrc = image;
+        });
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -77,9 +90,16 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
 
   onSubmit(): void {
     if (this.profileSrc && this.profileSrc.length > 0 && this.profileSrc !== this.originalProfileSrc) {
-      const storageRef = this.storage.ref(this.currentUser.uid + '/profilePicture/' + this.fileName);
-
-      const task = storageRef.put(this.rawProfileFile);
+      console.log(this.fileName);
+      const path = this.currentUser.uid + '/profilePicture/' + this.fileName;
+      const storageRef = this.storage.ref(path);
+      this.profilepicService.insertProfilePic(this.profileSrc);
+      this.currentUser.updateProfile({
+        photoURL: path
+      }).then(success => console.log(success), err => console.log(err));
+      const task = storageRef.put(this.rawProfileFile).then((profile) => {
+        console.log(`Set Profile Picture of User: ${this.currentUser.photoURL}`);
+      });
     }
     if (this.currentPwd.length > 0 && this.currentEmail.length > 0) {
       this.updatedUserProfile = this.updateEmail(this.currentEmail) && this.updatePwd(this.currentPwd);
@@ -100,7 +120,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   onFileSelected($event): void {
     const event = $event.target;
     if (event.files && event.files[0]) {
-      const file = this.rawProfileFile =  event.files[0];
+      const file = this.rawProfileFile = event.files[0];
       this.fileName = event.files[0].name;
       const fileReader = new FileReader();
       fileReader.onload = () => {

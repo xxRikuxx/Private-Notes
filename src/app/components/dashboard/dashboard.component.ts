@@ -37,7 +37,6 @@ export class DashboardComponent extends ToastsComponent implements OnInit {
   rowData = [];
 
   public gridOptions: GridOptions;
-
   constructor(private db: AngularFireDatabase, private dataService: DataService, public toastService: ToastService, public authService: AuthService) {
     super(toastService);
     const userDetails = this.authService.getUserDetails();
@@ -50,6 +49,7 @@ export class DashboardComponent extends ToastsComponent implements OnInit {
     };
     // tslint:disable-next-line:no-shadowed-variable
     notes.subscribe(notes => {
+      console.log(notes);
       this.rowData.push(notes);
       this.gridAPI.setRowData([...notes]);
       console.log(notes);

@@ -10,6 +10,7 @@ import * as firebase from 'firebase';
 export class AuthService {
   private user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
+
   constructor(private firebaseAuth: AngularFireAuth, private router: Router) {
     this.user = firebaseAuth.authState;
 
@@ -27,16 +28,9 @@ export class AuthService {
     return this.userDetails;
   }
 
-  getCurrentUser(): any {
-    return this.firebaseAuth.currentUser;
-  }
-
   // Sign In Authentication
   signInUser(email, password): Promise<any> {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
-      .catch((err) => {
-        console.log(err);
-      });
+    return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
 
@@ -48,11 +42,11 @@ export class AuthService {
   }
 
 
-  isLoggedIn(): boolean{
+  isLoggedIn(): boolean {
     return this.userDetails !== null;
   }
 
-  logout() {
+  logout(): void {
     this.firebaseAuth.signOut().then((res) => {
       return this.router.navigate(['/']);
     });

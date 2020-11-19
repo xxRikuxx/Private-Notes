@@ -12,7 +12,8 @@
     <ul class="navbar-nav my-2 my-lg-0 ">
       <li ngbDropdown  display="dynamic" class="nav-item">
         <a href (click)="false" class="nav-link" ngbDropdownToggle>
-          <img [src]="profileSrc || '../../assets/amber-kipp-75715CVEJhI-unsplash.jpg'" width="50px" height="50px" alt="profile-pic" class="rounded-circle">
+
+          <img [src]="profileSrc || '../../assets/icons/default-profile.png'" width="50px" height="50px" alt="profile-pic" class="rounded-circle">
         </a>
         <div ngbDropdownMenu>
           <app-settings></app-settings>

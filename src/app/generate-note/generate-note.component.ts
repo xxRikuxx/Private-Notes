@@ -65,6 +65,7 @@ export class GenerateNoteComponent extends ToastsComponent implements OnInit {
   generateNote({title, category, description}): void {
     const note: any = new Note(title, description, category, moment().format('MMMM Do YYYY, h:mm:ss a'));
     this.notes.push(note).then((response) => {
+      console.log(note);
       this.showSuccess('Note Saved!');
     }, (err) => {
         this.showDanger('Note Failed To Save');

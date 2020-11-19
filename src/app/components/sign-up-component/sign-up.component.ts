@@ -3,20 +3,23 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {CreateNewUser} from '../../shared/models/CreateNewUser';
 import {Router} from '@angular/router';
+import {ToastsComponent} from '../../shared/toasts/toasts.component';
+import {ToastService} from '../../toast.service';
 
 @Component({
   selector: 'app-sign-up-component',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent extends ToastsComponent implements OnInit {
   account = new FormGroup({
     email: new FormControl(''),
     password: new FormControl('')
   });
   user = new CreateNewUser();
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, public toastService: ToastService) {
+    super(toastService);
   }
 
   ngOnInit(): void {
