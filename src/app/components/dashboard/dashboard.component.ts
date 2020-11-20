@@ -20,7 +20,7 @@ export class DashboardComponent extends ToastsComponent implements OnInit, OnDes
     {field: 'title', sortable: true, filter: true, editable: true, flex: 1, resizable: true},
     {field: 'description', sortable: true, filter: true, editable: true, flex: 3, resizable: true},
     {field: 'category', sortable: true, filter: true, editable: true, flex: 1, resizable: true},
-    {field: 'date', sortable: true, filter: true, editable: true, flex: 2, resizable: true},
+    {field: 'date', sortable: true, filter: true, editable: false, flex: 2, resizable: true},
     {
       headerName: '',
       field: 'name',
@@ -41,6 +41,7 @@ export class DashboardComponent extends ToastsComponent implements OnInit, OnDes
   public gridOptions: GridOptions;
   isLoading: boolean;
   userDetails;
+
   constructor(private db: AngularFireDatabase, public toastService: ToastService, public authService: AuthService) {
     super(toastService);
 
@@ -56,7 +57,7 @@ export class DashboardComponent extends ToastsComponent implements OnInit, OnDes
   }
 
   ngOnInit(): void {
-    this.rowData =    this.db.list(this.userDetails.uid + '/notes').valueChanges();
+    this.rowData = this.db.list(this.userDetails.uid + '/notes').valueChanges();
 
   }
 
@@ -67,8 +68,32 @@ export class DashboardComponent extends ToastsComponent implements OnInit, OnDes
 
   }
 
-  editRecord(key: string): void {
 
+  editRecord(newData): void {
+    const db = this.db.database.ref();
+
+    const query = this.db.database.ref(this.userDetails.uid + '/notes').orderByKey();
+    query.once('value')
+      .then((snap) => {
+        snap.forEach((child) => {
+          const key = child.key;
+          const value = child.val();
+          if (value.date === newData.date) {
+            db.child(`${this.userDetails.uid}/notes/${key}`).update(
+              {
+                category: newData.category,
+                date: newData.date,
+                description: newData.description,
+                title: newData.title
+              }
+            ).then(r => console.log(r));
+            this.showSuccess('Updated Note');
+            return true;
+          }
+        });
+      }, err => {
+        this.showDanger('Failed To Update Note');
+      });
   }
 
   deleteRecord({rowData}: any): void {
@@ -91,8 +116,14 @@ export class DashboardComponent extends ToastsComponent implements OnInit, OnDes
     // query.once("value")
   }
 
-  onGridReady(params: any) {
+  onGridReady(params: any): void {
     this.gridAPI = params.api;
   }
+
+  onRowClicked(event: any): void {
+    this.editRecord(event.data);
+    console.log('row', event);
+  }
+
 
 }

@@ -8,6 +8,8 @@
     [gridOptions]="gridOptions"
     [rowData]="rowData | async"
     [columnDefs]="columnDefs"
+    [editType]="'fullRow'"
+    (rowValueChanged)="onRowClicked($event)"
     (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
