@@ -5,6 +5,7 @@ video {
   height: 100vh;
   position: fixed;
   top: 0;
+  pointer-events: none;
   left: 0;
 }
 

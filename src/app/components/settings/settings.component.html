@@ -22,6 +22,7 @@
         </div>
       </div>
       <hr>
+      <h5>Security</h5>
       <div class="row">
         <div class="col-sm-6">
           <label for="email">Email address</label>
@@ -38,6 +39,20 @@
         <div class="col-sm-6">
           <button type="button" aria-describedby="pwdHelp" class="btn btn-outline-dark" (click)="resetPassword()">Reset Password</button>
           <small id="pwdHelp" class="form-text text-muted">Sends a link to your email address to reset your password.</small>
+        </div>
+      </div>
+
+      <hr>
+      <h5>Customization</h5>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="theme">Theme</label>
+        </div>
+        <div class="col-sm-6">
+          <select class="form-control" id="theme">
+              <option value="sun">Light  &#xf185;</option>
+              <option value="moon">Dark  &#xf186;</option>
+          </select>
         </div>
       </div>
     </form>
