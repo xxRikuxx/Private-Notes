@@ -34,6 +34,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   selectedOption = true;
   @Output() notifyTheme: EventEmitter<any> = new EventEmitter<any>();
   private theme = '';
+  private timeOut = null;
 
 
   constructor(public toastService: ToastService, private profilepicService: ProfilepicService, private formBuilder: FormBuilder, private db: AngularFireDatabase, private storage: AngularFireStorage, private modalService: NgbModal, private authService: AuthService) {
@@ -80,6 +81,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
 
   resetPassword(): void {
     if (this.currentEmail) {
+      console.log('Reset Password: Email Link sent to ---> ', this.currentEmail);
       this.authService.resetPassword(this.currentEmail).then((result) => {
         if (result) {
           this.showSuccess('Reset Password Link Sent!');
@@ -156,6 +158,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       }
     }
     if (this.updatedUserProfile) {
+      this.modalReference.close();
       this.showSuccessWithDelay('Profile Successfully Updated', 5000);
     }
 
@@ -163,7 +166,6 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       localStorage.setItem('theme', this.theme);
       this.didThemeChange = false;
     }
-    this.modalReference.close();
   }
 
   onFileSelected($event): void {
@@ -224,4 +226,15 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
     }
     console.log(value);
   }
+
+  checkIfValidEmail(): void {
+    // clearTimeout(this.timeOut);
+    // this.timeOut = setTimeout(() => {
+    //   console.log('User done typing ', this.currentEmail);
+    //   this.currentUser.checkIfValidEmail().currentEmail(this.currentEmail).then((res) => {
+    //     return true;
+    //   }, err => this.showDangerWithDelay(err, 5000));
+    // }, 2000);
+  }
+
 }

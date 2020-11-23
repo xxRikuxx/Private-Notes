@@ -26,18 +26,12 @@ export class LoginComponent extends ToastsComponent implements OnInit {
     this.showSuccess('');
   }
 
-  async login(): Promise<void> {
+  login(): void {
     const {email, password} = this.account.value;
-    const signIn = await this.authService.signInUser(email, password).then(r => {
-      console.log(r);
-      return true;
-    }, err => {
-      console.log(err);
-      this.showDangerWithDelay(err, 10000);
+    this.authService.signInUser(email, password).subscribe((data) => {
+      this.router.navigateByUrl('/dashboard');
+    }, (error) => {
+      this.showDangerWithDelay(error, 10000);
     });
-    if (signIn) {
-    }
-    this.router.navigateByUrl('/dashboard').then(r => console.log(r));
-
   }
 }

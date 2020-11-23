@@ -10,11 +10,8 @@ import {SignUpComponent} from './components/sign-up-component/sign-up.component'
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent},
-  // { path: 'dashboard', component: DashboardComponent},
-  // { path: 'settings', component: SettingsComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
-  { path: 'notfound', component: PageNotFoundComponent },
   {
     path: '',
     redirectTo: 'login',
@@ -22,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'notfound',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
 ];

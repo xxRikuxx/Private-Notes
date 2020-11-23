@@ -11,7 +11,6 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
-import * as firebase from 'firebase';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SignUpComponent } from './components/sign-up-component/sign-up.component';
@@ -25,8 +24,9 @@ import {AgGridModule} from 'ag-grid-angular';
 import { GenerateNoteComponent } from './generate-note/generate-note.component';
 import {HttpClientModule} from '@angular/common/http';
 import { DeleteBtnComponent } from './components/dashboard/delete-btn/delete-btn.component';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import * as firebase from 'firebase/app';
 
-firebase.initializeApp(firebaseConfig);
 
 @NgModule({
   declarations: [
@@ -50,6 +50,7 @@ firebase.initializeApp(firebaseConfig);
     AgGridModule.withComponents([]),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
     FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     ReactiveFormsModule,
@@ -58,4 +59,8 @@ firebase.initializeApp(firebaseConfig);
   providers: [AuthService, AuthGuardService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    firebase.initializeApp(firebaseConfig);
+  }
+}

@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
-import {BehaviorSubject, Observable} from 'rxjs';
-import * as firebase from 'firebase';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private user: Observable<firebase.User>;
-  private userDetails: firebase.User = null;
+  private user: Observable<any>;
+  private userDetails: any = null;
   private isLoading = new BehaviorSubject(true);
 
   constructor(private firebaseAuth: AngularFireAuth, private router: Router) {
@@ -36,18 +36,14 @@ export class AuthService {
   }
 
   // Sign In Authentication
-  signInUser(email, password): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(email, password).then(res => {
-        resolve(res);
-      }, err => reject(err));
-    });
+  signInUser(email, password): Observable<any> {
+     return of(this.firebaseAuth.signInWithEmailAndPassword(email, password));
   }
 
 
   // Create a New User
   signUpUser(email, password): Promise<any> {
-    return firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
+    return this.firebaseAuth.createUserWithEmailAndPassword(email, password).catch((error) => {
       console.log(`${error}`);
     });
   }
