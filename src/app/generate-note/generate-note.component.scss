@@ -1,0 +1,21 @@
+hr {
+  background-color: var(--bg-hr);
+}
+select, input, textarea {
+  background-color: var(--bg-form-inputs);
+  color: var(--bg-form-color);
+}
+
+
+.modal-header, .modal-body, .modal-footer{
+  background-color: var(--bg-form);
+  color: var(--bg-form-color);
+  border-color: var(--bg-hr);
+  //border-color: var(--bg-hr);
+}
+
+.modal-header button {
+  color: var(--bg-form-color);
+}
+
+

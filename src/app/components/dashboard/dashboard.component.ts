@@ -41,6 +41,7 @@ export class DashboardComponent extends ToastsComponent implements OnInit, OnDes
   public gridOptions: GridOptions;
   isLoading: boolean;
   userDetails;
+  lightTheme = true;
 
   constructor(private db: AngularFireDatabase, public toastService: ToastService, public authService: AuthService) {
     super(toastService);
@@ -126,4 +127,12 @@ export class DashboardComponent extends ToastsComponent implements OnInit, OnDes
   }
 
 
+  getTheme(value: any): void{
+    if (value === 'moon') {
+      this.lightTheme = false;
+    }
+    if (value === 'sun') {
+      this.lightTheme = true;
+    }
+  }
 }

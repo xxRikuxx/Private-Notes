@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,6 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   profile: FormGroup;
   customFile;
   email;
-  password;
   currentEmail = '';
   currentPwd = '';
   currentUser;
@@ -31,6 +30,11 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   private originalProfileSrc: any = '../../assets/icons/default-profile.png';
   private rawProfileFile: File;
   isLoading: boolean;
+  didThemeChange = false;
+  selectedOption = true;
+  @Output() notifyTheme: EventEmitter<any> = new EventEmitter<any>();
+  private theme = '';
+
 
   constructor(public toastService: ToastService, private profilepicService: ProfilepicService, private formBuilder: FormBuilder, private db: AngularFireDatabase, private storage: AngularFireStorage, private modalService: NgbModal, private authService: AuthService) {
     super(toastService);
@@ -54,14 +58,24 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
           console.log(image);
           this.profileSrc = image;
           this.originalProfileSrc = this.profileSrc;
-
-
         });
       }
     }
   }
 
   ngOnInit(): void {
+    const body = document.body;
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      if (theme === 'dark') {
+        if (body.classList.contains('light')) {
+          body.classList.replace('light', 'dark');
+          this.theme = 'dark';
+          this.notifyTheme.next('moon');
+          this.selectedOption = false;
+        }
+      }
+    }
   }
 
   resetPassword(): void {
@@ -85,7 +99,28 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       // this.generateNote(this.createNote.value);
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      const body = document.body;
+      if (this.didThemeChange) {
+        console.log('Theme not saved, revert to previous theme');
+        if (this.theme === 'dark') {
+          if (body.classList.contains('dark')) {
+            body.classList.replace('dark', 'light');
+            this.selectedOption = true;
+            this.notifyTheme.next('sun');
+          }
+        }
+        if (this.theme === 'light') {
+          if (body.classList.contains('light')) {
+            body.classList.replace('light', 'dark');
+            this.selectedOption = false;
+            this.notifyTheme.next('moon');
+          }
+        }
+      }
+
       console.log(this.closeResult);
+      this.didThemeChange = false;
+
     });
   }
 
@@ -100,6 +135,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
   }
 
   onSubmit(): void {
+
     if (this.profileSrc && this.profileSrc.length > 0 && this.profileSrc !== this.originalProfileSrc) {
       console.log(this.fileName);
       const path = this.currentUser.uid + '/profilePicture/' + this.fileName;
@@ -121,6 +157,11 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
     }
     if (this.updatedUserProfile) {
       this.showSuccessWithDelay('Profile Successfully Updated', 5000);
+    }
+
+    if (this.didThemeChange)  {
+      localStorage.setItem('theme', this.theme);
+      this.didThemeChange = false;
     }
     this.modalReference.close();
   }
@@ -159,5 +200,28 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       this.showDangerWithDelay(err, 5000);
       return false;
     });
+  }
+
+  selectedTheme(value: string): void {
+    const body = document.body;
+    if (value === 'moon') {
+      if (body.classList.contains('light')) {
+        body.classList.replace('light', 'dark');
+        this.didThemeChange = true;
+        this.theme = 'dark';
+        this.notifyTheme.next(value);
+        this.selectedOption = false;
+      }
+    }
+    if (value === 'sun') {
+      if (body.classList.contains('dark')) {
+        body.classList.replace('dark', 'light');
+        this.didThemeChange = true;
+        this.theme = 'light';
+        this.notifyTheme.next(value);
+        this.selectedOption = true;
+      }
+    }
+    console.log(value);
   }
 }

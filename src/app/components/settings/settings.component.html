@@ -37,7 +37,7 @@
 <!--          <label for="password">Reset </label>-->
         </div>
         <div class="col-sm-6">
-          <button type="button" aria-describedby="pwdHelp" class="btn btn-outline-dark" (click)="resetPassword()">Reset Password</button>
+          <button type="button" aria-describedby="pwdHelp" class="btn btn-danger" (click)="resetPassword()">Reset Password</button>
           <small id="pwdHelp" class="form-text text-muted">Sends a link to your email address to reset your password.</small>
         </div>
       </div>
@@ -49,15 +49,17 @@
           <label for="theme">Theme</label>
         </div>
         <div class="col-sm-6">
-          <select class="form-control" id="theme">
-              <option value="sun">Light  &#xf185;</option>
-              <option value="moon">Dark  &#xf186;</option>
+          <select
+            #themeSelect
+            (change)="selectedTheme(themeSelect.value)" class="form-control" id="theme">
+              <option value="sun" [selected]="selectedOption">Light  &#xf185;</option>
+              <option value="moon" [selected]="!selectedOption">Dark  &#xf186;</option>
           </select>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">Save</button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
   </div>
 </ng-template>

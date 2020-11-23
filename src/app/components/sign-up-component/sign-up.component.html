@@ -1,6 +1,6 @@
 <div class="container viewport-header">
   <video [muted]="true" autoplay playsinline loop>
-    <source src="../../assets/LiveWallpapers/mylivewallpapers.com-Digital-HUD-Techno.mp4" type="video/mp4">
+    <source src="../../assets/LiveWallpapers/mylivewallpapers.com-Japanese-Autumn-Leaves.mp4" type="video/mp4">
   </video>
   <div class="row">
     <form [formGroup]="account" (ngSubmit)="signUp()"  class="text-center border border-light p-5">
@@ -14,7 +14,7 @@
       <input type="password" [(ngModel)]="user.password" formControlName="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
 
       <!-- Sign in button -->
-      <button type="submit" mdbBtn color="info" block="true" class="my-4" (click)="signUp()">Sign Up</button>
+      <button class="btn btn-primary my-4"  type="submit" mdbBtn color="info" block="true" (click)="signUp()">Sign Up</button>
 
     </form>
     <!-- Default form login -->

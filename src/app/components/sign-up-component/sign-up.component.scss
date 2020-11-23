@@ -18,10 +18,12 @@ video {
   justify-content: center;
 }
 form {
-  background: white;
+  background-color: var(--bg);
+  border-color: var(--bg-hr) !important;
   margin: 0 auto;
   z-index: 1;
 }
+
 
 form img {
   margin-bottom: 10px;

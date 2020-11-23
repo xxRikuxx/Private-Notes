@@ -60,7 +60,9 @@ export class AuthService {
   logout(): void {
     this.firebaseAuth.signOut().then((res) => {
       console.log(res);
-      return this.router.navigate(['/']);
+      return this.router.navigate(['/']).then(() => {
+        window.location.reload();
+      });
     }, err => console.log(err));
   }
 

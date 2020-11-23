@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ProfilepicService} from '../services/profilepic.service';
+import {calcPossibleSecurityContexts} from '@angular/compiler/src/template_parser/binding_parser';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,10 @@ import {ProfilepicService} from '../services/profilepic.service';
 export class NavbarComponent implements OnInit {
 
   profileSrc;
+
+  @Output() notifyTheme: EventEmitter<any> = new EventEmitter<any>();
+  lightTheme: boolean = true;
+  darkTheme: boolean = false;
 
   constructor(public authService: AuthService, private storage: AngularFireStorage, private profilePicService: ProfilepicService) {
     const user = this.authService.getUserDetails();
@@ -37,7 +42,26 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logout() {
+  logout(): void {
+    if (this.darkTheme) {
+      const body = document.body;
+      body.classList.replace('dark', 'light');
+    }
     this.authService.logout();
+  }
+
+  getTheme(value: any): void {
+    if (value === 'moon') {
+      console.log('The dark theme!! ~ Navbar');
+      this.lightTheme = false;
+      this.darkTheme = true;
+      this.notifyTheme.next(value);
+    }
+    if (value === 'sun') {
+      console.log('The light theme!! ~ Navbar');
+      this.lightTheme = true;
+      this.darkTheme = false;
+      this.notifyTheme.next(value);
+    }
   }
 }

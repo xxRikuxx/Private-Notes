@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg" [class.navbar-light]="lightTheme" [class.bg-light]="lightTheme" [class.navbar-dark]="darkTheme" [class.bg-dark]="darkTheme">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -16,7 +16,7 @@
           <img [src]="profileSrc || '../../assets/icons/default-profile.png'" width="50px" height="50px" alt="profile-pic" class="rounded-circle">
         </a>
         <div ngbDropdownMenu>
-          <app-settings></app-settings>
+          <app-settings (notifyTheme)="getTheme($event)"></app-settings>
           <button ngbDropdownItem (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
       </li>

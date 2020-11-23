@@ -1,8 +1,46 @@
-
 /* Importing Bootstrap SCSS file. */
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 @import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
 @import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css";
-@import '~bootstrap/scss/bootstrap';
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
+@import '../node_modules/bootstrap/scss/bootstrap';
+body {
+  color: var(--text);
+  background-color: var(--bg);
+  transition: background-color 500ms ease-in-out, color 1000ms ease-in-out;
+}
 
 
+:root {
+  --gray0: #f8f8f8;
+  --gray1: #dbe1e8;
+  --gray2: #b2becd;
+  --gray3: #6c7983;
+  --gray4: #454e56;
+  --gray5: #2a2e35;
+  --gray6: #12181b;
+}
+
+.light {
+  --bg: var(--white);
+  --bg-nav: linear-gradient(to right, var(--gray5), var(--gray6));
+  --bg-drodown: var(--gray6);
+  --bg-form: var(--white);
+  --bg-form-header: var(--white);
+  --bg-form-color: var(--dark);
+  --bg-form-inputs: var(--white);
+  --text: var(--dark);
+  --bg-hr: #dee2e6;
+}
+
+.dark {
+  --bg: var(--gray5);
+  --bg-nav: linear-gradient(to right, var(--gray5), var(--gray6));
+  --bg-drodown: var(--gray6);
+  --text: var(--gray0);
+  --bg-form: #36393f;
+  --bg-hr: var(--gray6);
+  --bg-form-header: var(--gray6);
+  --bg-form-inputs: #40444b;
+  --bg-form-color: #dcddde;
+}
