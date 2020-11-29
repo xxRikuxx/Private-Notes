@@ -36,16 +36,14 @@ export class AuthService {
   }
 
   // Sign In Authentication
-  signInUser(email, password): Observable<any> {
-     return of(this.firebaseAuth.signInWithEmailAndPassword(email, password));
+  signInUser(email, password): Promise<any> {
+     return this.firebaseAuth.signInWithEmailAndPassword(email, password);
   }
 
 
   // Create a New User
   signUpUser(email, password): Promise<any> {
-    return this.firebaseAuth.createUserWithEmailAndPassword(email, password).catch((error) => {
-      console.log(`${error}`);
-    });
+    return this.firebaseAuth.createUserWithEmailAndPassword(email, password);
   }
 
 
@@ -63,12 +61,6 @@ export class AuthService {
   }
 
   resetPassword(emailAddress: string): Promise<any> {
-    return this.firebaseAuth.sendPasswordResetEmail(emailAddress).then(() => {
-      // Email sent.
-      return true;
-    }).catch(error => {
-      // An error happened.
-      return error;
-    });
+    return this.firebaseAuth.sendPasswordResetEmail(emailAddress);
   }
 }

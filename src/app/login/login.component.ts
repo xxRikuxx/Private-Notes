@@ -23,14 +23,14 @@ export class LoginComponent extends ToastsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showSuccess('');
   }
 
   login(): void {
     const {email, password} = this.account.value;
-    this.authService.signInUser(email, password).subscribe((data) => {
-      this.router.navigateByUrl('/dashboard');
+    this.authService.signInUser(email, password).then(() => {
+      this.router.navigateByUrl('/dashboard').then(r => console.log(r));
     }, (error) => {
+      console.log(error);
       this.showDangerWithDelay(error, 10000);
     });
   }

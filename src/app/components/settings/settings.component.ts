@@ -145,10 +145,13 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
       this.profilepicService.insertProfilePic(this.profileSrc);
       this.currentUser.updateProfile({
         photoURL: path
-      }).then(success => console.log(success), err => console.log(err));
+      }).then(success => {
+        console.log(success);
+      }, err => console.log(err));
       const task = storageRef.put(this.rawProfileFile).then((profile) => {
         console.log(`Set Profile Picture of User: ${this.currentUser.photoURL}`);
       });
+      this.updatedUserProfile = true;
     }
     if (this.currentPwd.length > 0 && this.currentEmail.length > 0) {
       this.updatedUserProfile = this.updateEmail(this.currentEmail) && this.updatePwd(this.currentPwd);
@@ -165,6 +168,7 @@ export class SettingsComponent extends ToastsComponent implements OnInit {
     if (this.didThemeChange)  {
       localStorage.setItem('theme', this.theme);
       this.didThemeChange = false;
+      this.modalReference.close();
     }
   }
 

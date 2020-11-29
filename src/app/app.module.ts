@@ -40,7 +40,7 @@ import * as firebase from 'firebase/app';
     ToastsContainerComponent,
     ToastsComponent,
     GenerateNoteComponent,
-    DeleteBtnComponent
+    DeleteBtnComponent,
   ],
   imports: [
     BrowserModule,

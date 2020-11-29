@@ -26,9 +26,13 @@ export class SignUpComponent extends ToastsComponent implements OnInit {
   }
 
   signUp(): void {
-    this.authService.signUpUser(this.user.email, this.user.password).then(r => {
-      console.log(r);
+    const {email, password} = this.account.value;
+    this.authService.signUpUser(email, password).then(r => {
+      this.router.navigate(['/']).then(w => console.log(w));
+      this.showSuccess('Newly Created User!');
+    }, (error) => {
+      console.log(error);
+      this.showDangerWithDelay(error, 10000);
     });
-    this.router.navigate(['/']).then(r => console.log(r));
   }
 }
